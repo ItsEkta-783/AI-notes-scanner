@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NeuraNotes-AI Notes Scanner 💖</title>
+    <link rel="icon" type="image/png" href="/static/ai_notes_scanner_logo.png">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" href="/static/favicon.ico">
+    <script src="/static/script.js" defer></script>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="top-bar">
+        <button onclick="toggleDarkMode()">🌙</button>
+    </div>
+
+    <img src="/static/ai_notes_scanner_logo.png" class="logo">
+
+    <h1>NeuraNotes</h1>
+    <p class="tagline">Scan. Understand. Summarize.</p>
+
+    {% if error %}
+        <div style="
+            background:#ffe0e6;
+            color:#d80032;
+            padding:10px;
+            border-radius:10px;
+            text-align:center;
+            margin-bottom:15px;
+            font-weight:500;">
+            {{ error }}
+        </div>
+    {% endif %}
+     
+    <form method="POST" action="/upload" enctype="multipart/form-data" onsubmit="return showLoading()">
+
+    <!-- DRAG & DROP AREA -->
+    <div class="drop-area" onclick="document.getElementById('fileInput').click()">
+
+        <div class="icon">📁</div>
+        <div class="title">Upload Notes</div>
+        <div class="subtitle">Drag and Drop notes</div>
+
+        <!-- Preview Section -->
+        <div class="file-preview">
+            <img id="preview-img" style="display:none; width: 200px;">
+            <iframe id="pdf-preview" style="display:none; width:100%; height:250px;"></iframe>
+            <p id="file-name"></p>
+        </div>
+
+        <input 
+            type="file" 
+            id="fileInput" 
+            name="file" 
+            accept=".pdf,.png,.jpg,.jpeg"
+            onchange="showFileName(this)"
+            hidden
+        >
+    </div>
+
+    <button id="scan-btn" type="submit">✨ Scan Notes</button>
+
+    <!-- Spinner + Processing -->
+    <div id="loading" class="spinner" style="display:none;"></div>
+    <p id="loading-text" class="loading-text" style="display:none;">⏳ Processing...</p>
+
+    </form>
+
+    {% if text and summary %}
+    <div class="result-grid">
+
+        <div>
+            <h3>📄 Extracted Text</h3>
+            <textarea readonly>{{ text }}</textarea>
+        </div>
+
+        <div>
+            <h3>🧠 Summary</h3>
+            <textarea readonly>{{ summary }}</textarea>
+            <button onclick="speakText(`{{ summary }}`)">🔊 Listen</button>
+        </div>
+
+    </div>
+    {% endif %}
+
+    {% if bullets %}
+    <div class="section">
+        <h3>📌 Key Points</h3>
+        <ul>
+            {% for point in bullets %}
+                <li>✨ {{ point }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    {% if summary %}
+    <div class="download">
+        <a href="/download">
+            <button>📥 Download PDF</button>
+        </a>
+    </div>
+    {% endif %}
+
+    {% if history %}
+    <div class="section">
+        <h3>📁 History</h3>
+        <ul>
+            {% for item in history %}
+                <li>{{ item.time }} - {{ item.summary[:50] }}...</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <div class="footer">
+        Made with 💖 by Ekta
+    </div>
+
+</div>
+
+</body>
+</html>
