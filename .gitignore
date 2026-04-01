@@ -1,0 +1,37 @@
+# ---- Python ----
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ---- Virtual Environment ----
+venv/
+ENV/
+env/
+
+# ---- Logs ----
+*.log
+ai_notes_scanner_log.txt
+
+# ---- OS files ----
+.DS_Store
+Thumbs.db
+
+# ---- IDE / Editor ----
+.vscode/
+.idea/
+
+# ---- Build / Python package ----
+build/
+dist/
+*.egg-info/
+
+# ---- Temporary files ----
+*.tmp
+*.swp
+*.swo
+
+# ---- Uploaded files (if any) ----
+uploads/
+media/
+temp/
